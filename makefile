@@ -13,3 +13,13 @@ run-debug:
 clean:
 	rm -f tictac.out
 	rm -f tictac-debug.out
+
+makecleanrun:
+	make clean
+	make default
+	make run
+
+makecleanrundebug:
+	make clean
+	make debug
+	make run-debug
