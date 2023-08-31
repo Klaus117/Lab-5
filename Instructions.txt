@@ -1,0 +1,54 @@
+The program should work on Linux, but it is submitted online.
+
+For this assignment, you will be familiarizing yourself with the Linux development environment through building a simple digital version of a popular childhood (and adulthood) game. The game requirements and how to copy your file to/from Linux were reviewed during lecture.
+
+Overview of Materials:
+
+ Tic-Tac-Whoa (100 points)
+Support 2 players
+Menu option for new game or exit program
+We will use a coordinate system like chess:
+3 ___|___|___
+2 ___|___|___
+1    |   |   
+   A   B   C
+The game ends when one player gets 3-in-a-row, there are no more moves possible, or either player quits (types "quit")
+ Sample in-game scenario (must support input as shown below for full credit; must handle incorrect/invalid input for full credit):
+...
+3 ___|___|___
+2 ___|___|___
+1    |   | 
+   A   B   C
+
+Player 1's Move: A2
+
+3 ___|___|___
+2 _X_|___|___
+1    |   | 
+   A   B   C
+
+Player 2's Move: ...
+Another sample in-game scenario (must support input as shown below for full credit; must handle incorrect/invalid input for full credit):
+...
+3 ___|___|___
+2 ___|___|___
+1    |   | 
+   A   B   C
+
+Player 1's Move: A
+
+Invalid move, please specify both column and row.
+3 ___|___|___
+2 ___|___|___
+1    |   | 
+   A   B   C
+Player 1's Move: ...
+Files to Submit via Linux:
+
+TicTacWhoa.c (80 points)
+Program may be compiled and tested on the EECS Linux Servers using the ANSI C99 standard
+TicTacWhoa.pdf (20 points)
+Screenshot of the terminal successfully compiling your TicTacWhoa file using the ANSI C99 standard with output filename TicTacWhoa
+Screenshot of the initial program screen
+Screenshot of the game after a few moves
+Screenshot of the end-game 
