@@ -1,28 +1,37 @@
 // Version 0
 // Testing IO stream, program compilalbity, makefile
-// 8/31/23 06:00
+// 8/31/2023 06:00
 //
 // Version 1
 // Functionality for printing board
-// 8/31/2023
+// 8/31/2023 08:00
+//
+// Version 1.1
+// Added row and column indicators
+// 8/31/2023 08:30
 
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 int print_board_row(int board_size, int row_num)
 {
     char board_square_value = '_'; //this is the value at the board square ___ -> _x_ this represents x ('_' is a default value)
     char board_square_next_to_value = '_'; //this is the character next to value character ___ -> _x_ this represents _ _
+    int row_num_indicator = abs((row_num - 2) % 3) + 1; //indicates row number EX "1 ___|___|___" ; the '1' would be the row number //to follow example math operation necessary (too much to explain in comment)
+
     if (row_num == board_size - 1) //checks if this is the bottom row
         board_square_next_to_value = ' '; //if we know last row, then we dont need underscores
     else
         board_square_next_to_value = '_'; //else we need underscores (redudent but hopefully easier to read)
 
     //prints row of board (row is decided by row_num)
+    printf("%d%c", row_num_indicator, ' '); //prints the beginning of the row EX "1 ___|___|___" ; the '1' would be the row number
     for (int i = 0; i < board_size - 1; i++)
     {//iterate over every element of row (array?) but last
         board_square_value = 'A'; //this is the value at the board square ___ -> _x_ this represents x
+        
         printf("%c%c%c|", board_square_next_to_value, board_square_value, board_square_next_to_value); //print element of row (skips last because dividers)
     }
     board_square_value = 'A'; //this is the value at the board square ___ -> _x_ this represents x
@@ -39,6 +48,7 @@ int print_board_full()
     {//iterate over every row of board (2-d array)
         print_board_row(board_size, row_num); //print a row of board
     }
+    printf("   A   B   C \n");
 }
 
 int main(void)
