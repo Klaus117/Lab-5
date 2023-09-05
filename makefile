@@ -1,8 +1,8 @@
 default:
-	gcc -o tictac.out tictac.c
+	gcc -std=c99 -o tictac.out tictac.c
 
 debug:
-	gcc -g -o tictac-debug.out tictac.c
+	gcc -std=c99 -g -o tictac-debug.out tictac.c
 
 run:
 	./tictac.out
@@ -14,12 +14,8 @@ clean:
 	rm -f tictac.out
 	rm -f tictac-debug.out
 
-makecleanrun:
-	make clean
-	make default
-	make run
+makecleanrun: clean default run
 
-makecleanrundebug:
-	make clean
-	make debug
-	make run-debug
+
+makecleanrundebug: clean debug run-debug
+	
