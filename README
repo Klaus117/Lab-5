@@ -1,12 +1,11 @@
-[PROJECT TITLE]
-
+# [PROJECT TITLE]
 [EXPLAIN PROJECT]
 
-[DEPENDENCIES]
+## [DEPENDENCIES]
 
-[INSTALLATION INSTRUCTIONS]
+## [INSTALLATION INSTRUCTIONS]
 
-TODO
+## TODO
 - Makefile improve: 
   - add link objects
   - better command names
