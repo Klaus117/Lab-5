@@ -13,6 +13,10 @@
 // Version 2.0
 // Added function that allows input strings to update board state
 // 8/31/2023 10:00
+//
+// Version 3.0
+// adding user input requests
+// possible implement game loop
 
 
 #include <stdio.h>
@@ -20,6 +24,15 @@
 #include <stdlib.h>
 
 #define BOARDSIZE 3
+#define A1 1
+#define B1 2
+#define C1 3
+#define A2 4
+#define B2 5
+#define C2 6
+#define A3 7
+#define B3 8
+#define C3 9
 
 //Global for simplicity
 char board_array[BOARDSIZE][BOARDSIZE];
@@ -150,18 +163,109 @@ int print_board_array()
     }
 }
 
+// void print_coordinate(int row, int col){
+//     printf("You are here: %c%c\n", col + 'A', row + '1');
+// }
+
+int user_input_request()
+{
+    printf("Please input a coordinate (ex A1):\n");
+    char data[64];
+    if(fgets(data, sizeof(data), stdin)) //attempt to read user input
+    { //sucessful read of user input
+        printf("%s", data);
+        // print_coordinate(1,1);
+        //strip of newline character
+        if (strlen(data) > 0 && data[strlen(data)-1] == '\n') 
+        {
+            data[strlen(data)-1] = '\0';
+        }
+        //printf("%d, %d, %d\n", data[0], data[1], data[2]);
+    }
+    else 
+    { //fail read of user input
+        printf("Error: Reading User Input (return -1)\n");
+        return -1;
+    }
+
+    //Assumes successful read of user input (otherwise hit return statement when fail)
+    printf("length of input is:%lu\n", strlen(data));
+    if(strlen(data) != 2) //2 == 2 characters plus terminate
+    { //user input is wrong length
+        printf("Error: Please Input Correct Number of Inputs: 2 characters ex A1 (return -1)\n");
+        return -1; //REPLACE
+    }
+
+    //Assumes correct number of characters
+
+    // Use enum instead of what I am doing
+    // simpler hard coding
+
+
+    // Use ASCII to determine input row and column
+    // char column_input = data[0];
+    // int column = column_input - 'A';
+
+    // char row_input = data[1];
+    // int row = row_input - '1';
+
+    // transfering data back
+    // - create a data type "coordinate" contains 2 integers which access the board array
+    //      1. make a Coordinate class
+    //      2. add helper / class functions
+    //      3. link this class / object with Makefile
+    // - or use a int* pointer to an int array (containing the two coordinates)
+
+    if(strcmp(data, "A1") == 0)
+        return A1;
+    else if(strcmp(data, "A2") == 0)
+        return A2;
+    else if(strcmp(data, "A3") == 0)
+        return A3;
+    else if(strcmp(data, "B1") == 0)
+        return B1;
+    else if(strcmp(data, "B2") == 0)
+        return B2;
+    else if(strcmp(data, "B3") == 0)
+        return B3;
+    else if(strcmp(data, "C1") == 0)
+        return C1;
+    else if(strcmp(data, "C2") == 0)
+        return C2;
+    else if(strcmp(data, "C3") == 0)
+        return C3;
+    else // input is not a valid coordinate
+    {
+        printf("Error: Invalid Coordinate: A1-3 B1-3 C1-3\n");
+        return -1;
+    }
+    printf("Error: you should not be here.\n");
+    return -1;
+}
+
+// int game_loop()
+// {
+    
+// }
+
 int main(void)
 {
     printf("hello world\n");
     //print_board_full();
-    print_board_full();
+    // print_board_full();
+    // initialize_board();
+    // print_board_full();
+    // edit_array_at(2, 2, 'h');
+    // print_board_full();
+    // print_board_array();
+    // perform_user_request("A2", strlen("A2"), 'X');
+    // print_board_full();
+    // perform_user_request("C3", strlen("C3"), 'X');
+    // print_board_full();
     initialize_board();
     print_board_full();
-    edit_array_at(2, 2, 'h');
+    int x = user_input_request();
+    printf("Input read is:%d\n", x);
     print_board_full();
-    print_board_array();
-    perform_user_request("A2", strlen("A2"), 'X');
-    print_board_full();
-    perform_user_request("C3", strlen("C3"), 'X');
-    print_board_full();
+
 }
