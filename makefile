@@ -1,5 +1,5 @@
 default:
-	gcc -std=c99 -o tictac.out tictac.c
+	gcc -std=c99 -o tictac.out coordinate.c tictac.c
 
 debug:
 	gcc -std=c99 -g -o tictac-debug.out tictac.c

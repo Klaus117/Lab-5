@@ -17,11 +17,15 @@
 // Version 3.0
 // adding user input requests
 // possible implement game loop
+//
+// Version 3.1
+// implement user input requests with enumeration and class coordinate type
 
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "coordinate.h"
 
 #define BOARDSIZE 3
 #define A1 1
@@ -197,7 +201,7 @@ int user_input_request()
     }
 
     //Assumes correct number of characters
-
+    //TODO: 
     // Use enum instead of what I am doing
     // simpler hard coding
 
@@ -268,4 +272,6 @@ int main(void)
     printf("Input read is:%d\n", x);
     print_board_full();
 
+    struct Coordinate coord = Coordinate(1,1);
+    printf("Testing Struct Members: row=%d, col=%d\n", coord.row, coord.col);
 }
