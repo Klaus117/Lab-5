@@ -20,6 +20,9 @@
 //
 // Version 3.1
 // implement user input requests with enumeration and class coordinate type
+//
+// Version 4.0
+// user input requests using char manipulatio and struct coodinate type
 
 
 #include <stdio.h>
@@ -28,15 +31,7 @@
 #include "coordinate.h"
 
 #define BOARDSIZE 3
-#define A1 1
-#define B1 2
-#define C1 3
-#define A2 4
-#define B2 5
-#define C2 6
-#define A3 7
-#define B3 8
-#define C3 9
+#define PLAYERCOUNT 2
 
 //Global for simplicity
 char board_array[BOARDSIZE][BOARDSIZE];
@@ -67,7 +62,7 @@ int print_board_row(int board_size, int row_num)
 int print_board_full()
 {
     int board_size = BOARDSIZE;
-    printf("test board\n");
+    // printf("test board\n");
 
     //prints full board
     for (int row_num = 0; row_num < board_size; row_num++)
@@ -92,67 +87,17 @@ int initialize_board()
     }
 }
 
-int edit_array_at(int row, int column, char value)
-{//variable row is offset from row indicator on game by 1 ([1-3 in game] vs [0-2 in this function]), similar with columns ABC -> 012
-    board_array[row][column] = value;
+int edit_array_at(Coordinate coordinate, char new_character)
+{
+    board_array[coordinate.row][coordinate.col] = new_character; // notice that during access of array, [row][col] is used (everywhere else we use {col,row})
+    return 1; //if we reach here assume good 
 }
 
-int perform_user_request(char input_string[], int input_string_length, char new_character)
+int perform_user_request(Coordinate coordinate, char new_character)
 {
-    printf("%s, %d\n", input_string, input_string_length);
-    if (input_string_length != 2) //check for correct size of input
-    {
-        printf("invalid input string\n");
-        return -1;// ERROR code -1
-    }
-
-    if(1)//compact IDE
-    {
-        //printf("1 is true\n");
-        if (strcmp(input_string, "A1") == 0)
-        {
-            //printf("input is A1\n");
-            edit_array_at(0,0, new_character);
-        }
-        else if (strcmp(input_string, "A2") == 0)
-        {
-            edit_array_at(1,0, new_character);
-        }
-        else if (strcmp(input_string, "A3") == 0)
-        {
-            edit_array_at(2,0, new_character);
-        }
-        else if (strcmp(input_string, "B1") == 0)
-        {
-            edit_array_at(0,1, new_character);
-        }
-        else if (strcmp(input_string, "B2") == 0)
-        {
-            edit_array_at(1,1, new_character);
-        }
-        else if (strcmp(input_string, "B3") == 0)
-        {
-            edit_array_at(2,1, new_character);
-        }
-        else if (strcmp(input_string, "C1") == 0)
-        {
-            edit_array_at(0,2, new_character);
-        }
-        else if (strcmp(input_string, "C2") == 0)
-        {
-            edit_array_at(1,2, new_character);
-        }
-        else if (strcmp(input_string, "C3") == 0)
-        {
-            edit_array_at(2,2, new_character);
-        }
-        else // string was right size, but none of our valid cases
-        {
-            printf("invalid input string\n");
-            return -1;// ERROR code -1
-        }
-        return 0; //if we reach here assume good input?
-    }
+    // printf("input coordinate recieved in perform_user_input col:%d, row:%d\n", coordinate.col, coordinate.row);
+    edit_array_at(coordinate, new_character);
+    return 1; //if we reach here assume good 
 }
 
 // for debugging
@@ -171,107 +116,113 @@ int print_board_array()
 //     printf("You are here: %c%c\n", col + 'A', row + '1');
 // }
 
-int user_input_request()
+// user_input_request
+// requires a coordinate value to edit results into.
+// processes user input. if the user input is valid, set the given coordinate to the value of the user input. else return -1.
+// returns -1 for failure and 1 for success.
+int user_input_request(Coordinate *coordinate) //user_input_validation 
 {
     printf("Please input a coordinate (ex A1):\n");
     char data[64];
-    if(fgets(data, sizeof(data), stdin)) //attempt to read user input
-    { //sucessful read of user input
-        printf("%s", data);
-        // print_coordinate(1,1);
-        //strip of newline character
-        if (strlen(data) > 0 && data[strlen(data)-1] == '\n') 
-        {
-            data[strlen(data)-1] = '\0';
-        }
-        //printf("%d, %d, %d\n", data[0], data[1], data[2]);
-    }
-    else 
+    if(fgets(data, sizeof(data), stdin) == NULL) //attempt to read user input
     { //fail read of user input
         printf("Error: Reading User Input (return -1)\n");
         return -1;
     }
+    // continue if not fail read.
 
-    //Assumes successful read of user input (otherwise hit return statement when fail)
-    printf("length of input is:%lu\n", strlen(data));
+    // sucessful read of user input
+    // printf("%s", data);
+    // strip of newline character
+    if (strlen(data) > 0 && data[strlen(data)-1] == '\n') 
+    {
+        data[strlen(data)-1] = '\0';
+    }
+
+    // Assumes successful read of user input (otherwise hit return statement when fail)
+    // printf("length of input is:%lu\n", strlen(data));
     if(strlen(data) != 2) //2 == 2 characters plus terminate
     { //user input is wrong length
         printf("Error: Please Input Correct Number of Inputs: 2 characters ex A1 (return -1)\n");
-        return -1; //REPLACE
-    }
-
-    //Assumes correct number of characters
-    //TODO: 
-    // Use enum instead of what I am doing
-    // simpler hard coding
-
-
-    // Use ASCII to determine input row and column
-    // char column_input = data[0];
-    // int column = column_input - 'A';
-
-    // char row_input = data[1];
-    // int row = row_input - '1';
-
-    // transfering data back
-    // - create a data type "coordinate" contains 2 integers which access the board array
-    //      1. make a Coordinate class
-    //      2. add helper / class functions
-    //      3. link this class / object with Makefile
-    // - or use a int* pointer to an int array (containing the two coordinates)
-
-    if(strcmp(data, "A1") == 0)
-        return A1;
-    else if(strcmp(data, "A2") == 0)
-        return A2;
-    else if(strcmp(data, "A3") == 0)
-        return A3;
-    else if(strcmp(data, "B1") == 0)
-        return B1;
-    else if(strcmp(data, "B2") == 0)
-        return B2;
-    else if(strcmp(data, "B3") == 0)
-        return B3;
-    else if(strcmp(data, "C1") == 0)
-        return C1;
-    else if(strcmp(data, "C2") == 0)
-        return C2;
-    else if(strcmp(data, "C3") == 0)
-        return C3;
-    else // input is not a valid coordinate
-    {
-        printf("Error: Invalid Coordinate: A1-3 B1-3 C1-3\n");
         return -1;
     }
-    printf("Error: you should not be here.\n");
+    
+    if(data[0] >= 'A' && data[0] <= 'C' && data[1] >= '1' && data[1] <= '3')
+    { // user input has valid range of chars
+        *coordinate = str_to_coordinate(data); //edits given coordinate with user input
+
+        // success //dont return because more validation (returns at end of function) // success
+    }
+    else
+    { // user input does not have valid range of chars
+        printf("Error: Please Input Correct Range of Inputs: 2 characters ex A-C and 1-3 (return -1)\n");
+        return -1; 
+    }
+
+    // check if designated coordinate is available (empty == '_' or ' ')
+    if(board_array[coordinate->row][coordinate->col] == '_' || board_array[coordinate->row][coordinate->col] == ' ')
+    { // success it is a valid spot
+        return 1; // if we manage to get here we have complete task successfully
+    }
+    else
+    { // fail it is not a valid spot
+        printf("Error: Invalid location (already occupied)\n");
+        return -1;
+    }
+    
+    printf("should not be here Line:%d File:%s\n", __LINE__, __FILE__);
     return -1;
 }
 
-// int game_loop()
-// {
-    
-// }
+int game_loop()
+{
+    initialize_board();
+    int free_spaces = BOARDSIZE * BOARDSIZE;
+    int winner = 0; //zero no win, 1 == player1 wins, 2 == player2 wins
+    int turn_counter = 0;
+    char player_piece = 'X';
+    int player_turn = 1;
+    while(free_spaces > 0 && !winner) // while there are still free spaces and there is not winner yet
+    {
+        print_board_full();
+        Coordinate coord = newCoordinate(0,0);
+        if(turn_counter % 2 == 0)
+        { // if an even turn (player1 is X)
+            player_piece = 'X';
+            player_turn = 1;
+        }
+        else
+        { // if an odd turn (player2 is O)
+            player_piece = 'O';
+            player_turn = 2;
+        }
+
+        printf("turn number:%d ... player%d's turn (places %c)\n", turn_counter, player_turn, player_piece);
+
+        while(user_input_request(&coord) != 1)
+        { // repeatedly attempt to get user input until sucess
+
+        }
+        
+        perform_user_request(coord, player_piece);
+        free_spaces--; // every successful turn should reduce free space by 1
+        turn_counter++;
+    }
+    print_board_full(); // print last time as game finishes
+}
 
 int main(void)
 {
     printf("hello world\n");
-    //print_board_full();
-    // print_board_full();
     // initialize_board();
     // print_board_full();
-    // edit_array_at(2, 2, 'h');
+    game_loop();
+    // Coordinate coord = newCoordinate(2,1);
+    // perform_user_request(coord, 'X');
+    // printf("Testing Struct Members: col=%d, row=%d\n", coord.col, coord.row);
     // print_board_full();
-    // print_board_array();
-    // perform_user_request("A2", strlen("A2"), 'X');
-    // print_board_full();
-    // perform_user_request("C3", strlen("C3"), 'X');
-    // print_board_full();
-    initialize_board();
-    print_board_full();
-    int x = user_input_request();
-    printf("Input read is:%d\n", x);
-    print_board_full();
-
-    struct Coordinate coord = Coordinate(1,1);
-    printf("Testing Struct Members: row=%d, col=%d\n", coord.row, coord.col);
+    // char string_coordinate[2];
+    // coordinate_to_str(coord, string_coordinate);
+    // printf("String value of coordinate: %s\n", string_coordinate);
+    // printf("Change back to string: {%d,%d}\n", str_to_coordinate(string_coordinate).col, str_to_coordinate(string_coordinate).row);
 }
